@@ -46,6 +46,17 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + score;
     }
 
+    public void UpdateLives(int livesToChange)
+    {
+        lives += livesToChange;
+        livesText.text = "Lives: " + lives;
+        if (lives <= 0)
+        {
+            GameOver();
+        }
+    }
+
+
     public void GameOver()
     {
         restartButton.gameObject.SetActive(true);
@@ -65,7 +76,9 @@ public class GameManager : MonoBehaviour
         spawnRate /= difficulty;
 
         StartCoroutine(SpawnTarget());
+        score = 0;
         UpdateScore(0);
+        UpdateLives(3);
 
         titleScreen.gameObject.SetActive(false);
     }
