@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class GameManager : MonoBehaviour
     public int lives;
     private int score;
     private float spawnRate = 1.0f;
+    public GameObject pauseScreen;
+    private bool paused;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +29,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ChangePaused();
+        }
     }
 
-    IEnumerator SpawnTarget()
+    IEnumerator SpawnTarget() 
     {
         while (isGameActive)
         {
@@ -81,5 +87,21 @@ public class GameManager : MonoBehaviour
         UpdateLives(3);
 
         titleScreen.gameObject.SetActive(false);
+    }
+
+    void ChangePaused()
+    {
+        if (!paused)
+        {
+            paused = true;
+            pauseScreen.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            paused = false;
+            pauseScreen.SetActive(false);
+            Time.timeScale = 1;
+        }
     }
 }
